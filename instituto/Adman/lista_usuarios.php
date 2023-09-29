@@ -1,5 +1,5 @@
 <?php
-require_once '../includes/header.php';
+require_once './includes/header.php';
 require_once './modals/modals.php';
 require_once './models/usuarios/edidtar_user.php';
 require_once '../Includes/load.php';

@@ -19,19 +19,19 @@ if (!empty($_POST)) {
         $pass = $_POST['pass'];
         
         
-        $sql="SELECT *, Fechanacimiento,
-        TIMESTAMPDIFF(YEAR, Fechanacimiento, CURDATE()) AS edad FROM Usuario u INNER JOIN Rol  r on u.fk_Rol=r.id_rol
-        left JOIN Persona p on p.DNI= u.fk_DNI
-        INNER JOIN Estado e on e.Id_Estado= u.fk_Estado_Usuario
-         /*left JOIN Carrera_Alumno ca on ca.id_Alumno=A.alumno_id*/
-        left JOIN Plan pn on pn.cod_Plan=u.fk_Plan
-         WHERE User='$login' AND Password='$pass'";
-        $query = $pdo->prepare($sql);
-        $query->execute([$login, $pass]);
-        $result = $query->fetch(PDO::FETCH_ASSOC);
+        $sql = "SELECT *, Fechanacimiento, TIMESTAMPDIFF(YEAR, Fechanacimiento, CURDATE()) AS edad
+        FROM Usuario u
+        INNER JOIN Rol r ON u.fk_Rol = r.id_rol
+        LEFT JOIN Persona p ON p.DNI = u.fk_DNI
+        INNER JOIN Estado e ON e.Id_Estado = u.fk_Estado_Usuario
+        LEFT JOIN Plan pn ON pn.cod_Plan = u.fk_Plan
+        WHERE User = :login AND Password = :pass";
 
-       
-        
+$query = $pdo->prepare($sql);
+$query->bindParam(':login', $login);
+$query->bindParam(':pass', $pass);
+$query->execute(); // No need to pass an array here
+$result = $query->fetch(PDO::FETCH_ASSOC);
 
 
         if ($query->rowCount() > 0) {
